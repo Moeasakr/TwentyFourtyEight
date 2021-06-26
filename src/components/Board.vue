@@ -30,54 +30,74 @@ export default {
       board.value = boardCopy;
     };
 
-    const moveBoard = (i) => {
+    const renameMe = (array) => {
+      return array[Math.floor(Math.random() * (array.length - 0) + 0)]
+    }
+
+    const checkIfEmpty = (array) => {
+      return array.every((item) => item === null);
+    }
+
+    const shiftTilesLeft = (array) => {
+      array.forEach((element) => {
+        // Checks if array is empty, each array is a row so an empty array wouldn't need to be iterated over
+        if (checkIfEmpty(element)) return;
+
+        element.forEach((item, x) => {
+            // Returns if field is null
+            if (item === null) return;
+            //Checks if this is the first element in the row
+            if (x === 0) return;
+
+            //Checks if box before it is empty
+            if (element[x - 1] === null) {
+                element[x - 1] = item;
+                element[x] = null;
+            } else {
+                if (element[x - 1] === item) {
+                    element[x - 1] = item * 2;
+                    element[x] = null;
+                }
+            }
+        });
+    });
+    }
+
+    const moveBoard = (keyCode) => {
       // Legend
       // 0 - Left
       // 1 - Up
       // 2 - Right
       // 3 - Down
-      const boardCopy = board.value.slice();
-      // const newCopy = board.value.slice();
-      boardCopy.forEach((tile, x) => {
-        if (x === 5) {
-          if (tile === null) return;
-          if (tile === boardCopy[4]) {
-            boardCopy[4] = tile * 2;
-            boardCopy[5] = null;
-          }
-          if (tile === boardCopy[6]) {
-            boardCopy[6] = null;
-            if (boardCopy[4] === null) {
-              boardCopy[4] = tile * 2;
-              boardCopy[5] = null;
-            } else {
-              boardCopy[5] = tile * 2;
-            }
-          }
-          // console.log(boardCopy[6]);
-          // console.log(tile);
+      var boardCopy = board.value.slice();
+      if (keyCode === 0) {
+        // Temp array split into 4 arrays that act as rows to make left easier to process
+        const newArray = new Array(4).fill("").map((_, i) => boardCopy.slice(i * 4, (i + 1) * 4));
+        // Calls the shift function multiple times, elements are shifted once per call
+        for (let i = 0; i <= 3; i++) {
+          shiftTilesLeft(newArray);
         }
-        // if (x === 0 || x === 4 || x === 8 || x === 12) {
-        //   return;
-        // } else {
-        //   // if (x === )
-        //   console.log(x);
-        // }
-      });
+        // Map newArray to boardCopy
+        boardCopy = [...newArray[0], ...newArray[1], ...newArray[2], ...newArray[3]];
+        var indexesArray = [];
+        boardCopy.forEach((element, i)=>{
+          if (element !== null) return;
+          indexesArray.push(i)
+        });
 
+        let newTileIndex = renameMe(indexesArray);
+        boardCopy[newTileIndex] = 2;
+      }
 
       
       
 
 
-      // boardCopy[i] = tileValue.value;
       board.value = boardCopy;
-      // console.log(boardCopy);
 
-      // if (i === 0) return console.log('Left');
-      if (i === 1) return console.log('Up');
-      if (i === 2) return console.log('Right');
-      if (i === 3) return console.log('Down');
+      if (keyCode === 1) return console.log('Up');
+      if (keyCode === 2) return console.log('Right');
+      if (keyCode === 3) return console.log('Down');
 
     }
     
@@ -108,9 +128,6 @@ export default {
           break;
       }
     },
-    renameMe(max) {
-      return Math.floor(Math.random() * (max - 0) + 0);
-    }
   },
   created() {
     return ref(Array(16).fill(null));

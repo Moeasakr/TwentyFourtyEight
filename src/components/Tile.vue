@@ -9,7 +9,7 @@ export default {
     props: {
         label: String,
         value: {
-            type: String,
+            type: Number,
             default: ' ',
         },
         winner: null,
