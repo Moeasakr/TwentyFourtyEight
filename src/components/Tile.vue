@@ -1,5 +1,5 @@
 <template>
-  <div class="tile" :name="label" :disabled="winner || value"> 
+  <div class="tile" :name="label" :v-model="colorPicker" :style="{'background-color':assignedColor}"> 
       <p class="value"> {{ value }} </p>
     </div>
 </template>
@@ -14,6 +14,27 @@ export default {
         },
         winner: null,
     },
+    data() {
+        return {
+            colorScheme: {
+                2: "#915233", 
+                4: "#874829", 
+                8: "#7B3D1F", 
+                16: "#70381C", 
+                32: "#682E11", 
+                64: "#62290D", 
+                128: "#64280A", 
+                256: "#582106", 
+                512: "#5C2104", 
+                1024: "#562006", 
+                2048: "#512008"}
+        }
+    },
+    computed: {
+        colorPicker(){
+            this.assignedColor = this.colorScheme[this.value];
+        }
+    },
 }
 </script>
 
@@ -21,12 +42,14 @@ export default {
     .tile {
         width: 100px;
         height: 100px;
-        background: #6dcce1;
+        background: #BF6336;
         margin: auto;
         display: flex;
     }
     .value {
         margin: auto;
-        color: darkblue;
+        color: white;
+        font-weight: 900;
+        font-size: 1.5em;
     }
 </style>

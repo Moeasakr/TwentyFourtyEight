@@ -1,4 +1,5 @@
 <template>
+  <div class="scoreboard">{{ score }}</div>
   <div class="board">
     <Tile v-for="(tile, i) in board" :key='`tile-${i}`' :label="`square-${i}`" :value="tile" />
   </div>
@@ -15,7 +16,7 @@ export default {
     Tile,
   },
   setup() {
-    const {board, moveBoard, initialTiles, undoMove} = useBoard();
+    const {board, moveBoard, initialTiles, undoMove, score} = useBoard();
     
     // For initial tiles -- Find a better way to do this
     let boardCopy = board.value.slice();
@@ -28,7 +29,8 @@ export default {
     return {
       board,
       moveBoard,
-      undoMove
+      undoMove,
+      score,
     };
   },
   methods:{
@@ -72,7 +74,7 @@ export default {
   .board {
     width: 450px;
     height: 450px;
-    background: gray;
+    background: #523A28;
     display: flex;
     flex-flow: wrap;
     border: solid black;

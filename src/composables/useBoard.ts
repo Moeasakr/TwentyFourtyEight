@@ -4,6 +4,8 @@ export const useBoard = () => {
     const board: Ref<(number | null)[]> = ref(Array(16).fill(null));
     var changesCounter = 0;
     const previousBoards = [];
+    var score = ref(0);
+    var roundScore = 0;
 
     const checkIfEmpty = (array) => {
         return array.every((item) => item === null);
@@ -28,6 +30,7 @@ export const useBoard = () => {
                 } else {
                     if (element[x - 1] === item) {
                         element[x - 1] = item * 2;
+                        roundScore += element[x - 1];
                         element[x] = null;
                         changesCounter++;
                     }
@@ -55,6 +58,7 @@ export const useBoard = () => {
                 } else {
                     if (element[x - 1] === item) {
                         element[x - 1] = item * 2;
+                        roundScore += element[x - 1];
                         element[x] = null;
                         changesCounter++;
                     }
@@ -82,6 +86,7 @@ export const useBoard = () => {
                 } else {
                     if (element[x + 1] === item) {
                         element[x + 1] = item * 2;
+                        roundScore += element[x + 1];
                         element[x] = null;
                         changesCounter++;
                     }
@@ -103,12 +108,14 @@ export const useBoard = () => {
 
                 //Checks if box before it is empty
                 if (element[x + 1] === null) {
+                    roundScore += element[x + 1];
                     element[x + 1] = item;
                     element[x] = null;
                     changesCounter++;
                 } else {
                     if (element[x + 1] === item) {
                         element[x + 1] = item * 2;
+                        roundScore += element[x + 1];
                         element[x] = null;
                         changesCounter++;
                     }
@@ -145,7 +152,7 @@ export const useBoard = () => {
     };
 
     const mapArray = (array) => {
-        let jsonMapping = [
+        let arrayMapping = [
             {
                 0: 0,
                 1: 4,
@@ -169,7 +176,7 @@ export const useBoard = () => {
         const final = [...array[0], ...array[1], ...array[2], ...array[3]];
 
         final.forEach((el, i) => {
-            let arrayIndex = jsonMapping[0][i];
+            let arrayIndex = arrayMapping[0][i];
             remappedArray[arrayIndex] = el;
         });
         return remappedArray;
@@ -186,13 +193,15 @@ export const useBoard = () => {
         // 2 - Right
         // 3 - Down
 
-        //Resetting counter
+        // Resetting counter
         changesCounter = 0;
+
+        // Resetting round score
+        roundScore = 0;
 
         // Creates a copy of the board to be used for changes
         var boardCopy = board.value.slice();
         previousBoards.push(boardCopy);
-        console.log(previousBoards);
 
         // Splits array
         var rowArray = splitArrayIntoRows(boardCopy);
@@ -268,6 +277,8 @@ export const useBoard = () => {
             let newTileIndex = renameMe(indexesArray);
             boardCopy[newTileIndex] = 2;
         }
+        // Updates the score
+        score.value += roundScore;
 
         // Updates the board
         board.value = boardCopy;
@@ -302,5 +313,6 @@ export const useBoard = () => {
         moveBoard,
         initialTiles,
         undoMove,
+        score,
     };
 };
