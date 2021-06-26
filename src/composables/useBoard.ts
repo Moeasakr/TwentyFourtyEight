@@ -197,7 +197,7 @@ export const useBoard = () => {
         // Left arrow key pressed
         if (keyCode === 0) {
             // Calls the shift function multiple times, elements are shifted once per call
-            for (let i = 0; i <= 3; i++) {
+            for (let i = 0; i < 3; i++) {
                 // Stops iterating if no changes were made
                 if (i !== 0 && changesCounter === 0) return;
                 shiftTilesLeft(rowArray);
@@ -216,7 +216,7 @@ export const useBoard = () => {
             //Splits array into columns
             var columnArray = splitArrayIntoColumns(rowArray);
             // Calls the shift function multiple times, elements are shifted once per call
-            for (let i = 0; i <= 3; i++) {
+            for (let i = 0; i < 3; i++) {
                 // Stops iterating if no changes were made
                 if (i !== 0 && changesCounter === 0) return;
                 shiftTilesUp(columnArray);
@@ -228,7 +228,7 @@ export const useBoard = () => {
         // Right arrow key pressed
         if (keyCode === 2) {
             // Calls the shift function multiple times, elements are shifted once per call
-            for (let i = 0; i <= 3; i++) {
+            for (let i = 0; i < 3; i++) {
                 // Stops iterating if no changes were made
                 if (i !== 0 && changesCounter === 0) return;
                 shiftTilesRight(rowArray);
@@ -246,7 +246,7 @@ export const useBoard = () => {
             //Splits array into columns
             var columnArray = splitArrayIntoColumns(rowArray);
             // Calls the shift function multiple times, elements are shifted once per call
-            for (let i = 0; i <= 3; i++) {
+            for (let i = 0; i < 3; i++) {
                 // Stops iterating if no changes were made
                 if (i !== 0 && changesCounter === 0) return;
                 shiftTilesDown(columnArray);
