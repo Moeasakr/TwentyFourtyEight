@@ -3,6 +3,7 @@ import { ref, Ref } from "vue";
 export const useBoard = () => {
     const board: Ref<(number | null)[]> = ref(Array(16).fill(null));
     var changesCounter = 0;
+    const previousBoards = [];
 
     const checkIfEmpty = (array) => {
         return array.every((item) => item === null);
@@ -190,6 +191,8 @@ export const useBoard = () => {
 
         // Creates a copy of the board to be used for changes
         var boardCopy = board.value.slice();
+        previousBoards.push(boardCopy);
+        console.log(previousBoards);
 
         // Splits array
         var rowArray = splitArrayIntoRows(boardCopy);
@@ -270,6 +273,14 @@ export const useBoard = () => {
         board.value = boardCopy;
     };
 
+    const undoMove = () => {
+        // Checks if there was a previous move in the array
+        if (previousBoards.length === 0) return;
+
+        // Resets the board status to the last state stored in the array
+        board.value = previousBoards.pop();
+    };
+
     const initialTiles = () => {
         // Returns a JSON object with 2 values between 0 and 15 which will
         // be used as the indexes for the first two tiles
@@ -290,5 +301,6 @@ export const useBoard = () => {
         board,
         moveBoard,
         initialTiles,
+        undoMove,
     };
 };

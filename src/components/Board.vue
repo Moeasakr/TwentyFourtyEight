@@ -15,7 +15,7 @@ export default {
     Tile,
   },
   setup() {
-    const {board, moveBoard, initialTiles} = useBoard();
+    const {board, moveBoard, initialTiles, undoMove} = useBoard();
     
     // For initial tiles -- Find a better way to do this
     let boardCopy = board.value.slice();
@@ -27,7 +27,8 @@ export default {
 
     return {
       board,
-      moveBoard
+      moveBoard,
+      undoMove
     };
   },
   methods:{
@@ -44,6 +45,9 @@ export default {
           break;
         case 40:
           this.moveBoard(3);
+          break;
+        case 90:
+          this.undoMove();
           break;
         default:
           break;
