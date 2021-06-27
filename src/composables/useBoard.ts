@@ -6,6 +6,7 @@ export const useBoard = () => {
     const previousBoards = [];
     var score = ref(0);
     var roundScore = 0;
+    var lossConditionMet = false;
 
     const checkIfEmpty = (array) => {
         return array.every((item) => item === null);
@@ -193,6 +194,9 @@ export const useBoard = () => {
         // 2 - Right
         // 3 - Down
 
+        // Checks if the loss condition has been met, returns if it has been met
+        if (lossConditionMet === true) return;
+
         // Resetting counter
         changesCounter = 0;
 
@@ -282,6 +286,9 @@ export const useBoard = () => {
 
         // Updates the board
         board.value = boardCopy;
+
+        // Runs the check for the loss condition
+        lossConditionMet = checkLossCondition(boardCopy);
     };
 
     const undoMove = () => {
@@ -306,6 +313,23 @@ export const useBoard = () => {
 
         // Returning the 2 numbers in a JSON object
         return { first: firstTileLocation, second: secondTileLocation };
+    };
+
+    const checkLossCondition = (array) => {
+        changesCounter = 0;
+
+        var rowArray = splitArrayIntoRows(array);
+        var columnArray = splitArrayIntoColumns(rowArray);
+        // console.log(columnArray);
+        shiftTilesLeft(rowArray);
+        if (changesCounter !== 0) return false;
+        shiftTilesUp(columnArray);
+        if (changesCounter !== 0) return false;
+        shiftTilesRight(rowArray);
+        if (changesCounter !== 0) return false;
+        shiftTilesDown(columnArray);
+        if (changesCounter === 0) return true;
+        return false;
     };
 
     return {

@@ -45,6 +45,7 @@ export default {
         background: #BF6336;
         margin: auto;
         display: flex;
+        border-radius: 25px;
     }
     .value {
         margin: auto;
