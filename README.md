@@ -1,6 +1,8 @@
 # 2048 Game made using Vue.js
 
-## Finished aspects
+## Live version hosted at: http://2048.moeasakr.ca
+
+### Finished aspects
 - Generating board and tiles
 - Detecting keydown input
 - Sliding board
@@ -12,6 +14,6 @@
 - Disabled page scrolling when arrow keys are pressed
 - Buttons for demo purposes
 
-## Next steps
+### Next steps
 - Styling
 - Improve functionality
