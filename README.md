@@ -1,6 +1,7 @@
 # 2048 Game made using Vue.js
 
 ## Live version hosted at: http://2048.moeasakr.ca
+> Live version only works on http at the moment
 
 ### Finished aspects
 - Generating board and tiles
