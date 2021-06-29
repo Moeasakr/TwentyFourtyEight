@@ -1,5 +1,5 @@
 <template>
-  <div class="tile" :name="label" :v-model="colorPicker" :style="{'background-color':assignedColor}"> 
+  <div class="tile" :name="label" :v-model="colorPicker" :style="{'background-color':assignedColor, 'font-size':animation}"> 
       <p class="value"> {{ value }} </p>
     </div>
 </template>
@@ -8,6 +8,7 @@
 export default {
     props: {
         label: String,
+        animation: String,
         value: {
             type: Number,
             default: ' ',

@@ -2,9 +2,15 @@
   <div v-if="checkWinCondition" :style="{'background-color':checkWinCondition.color}">
     <h2>{{checkWinCondition.msg}}</h2>
   </div>
-  <div class="scoreboard">
-    <p class="scoreLabel">Score:</p>
-    <p class="score">{{ score }}</p>
+  <div class="aboveBoard">
+    <div class="scoreboard">
+      <p class="scoreLabel">Score:</p>
+      <p class="score">{{ score }}</p>
+    </div>
+    <div class="info">
+      <span class="fas fa-info-circle"></span>
+      <p class="infoBox">{{whatever}}</p>
+    </div>
   </div>
   <div class="board">
     <Tile v-for="(tile, i) in board" :key='`tile-${i}`' :label="`square-${i}`" :value="tile" />
@@ -23,20 +29,14 @@ export default {
   components: {
     Tile,
   },
-  data() {
-    return {
-      test: "red",
-      overlay: false,
-    }
-  },
   setup(props) {
     const {board, moveBoard, initialTiles, undoMove, score} = useBoard();
     var winConditionMet = false;
     const { checkWinCondition } = useCheckWinCondition(board, winConditionMet);
-    
     let boardCopy = board.value.slice();
     let initialTilesLocation = initialTiles();
-
+    var whatever = ref('changeThis');
+    whatever.value = "Use the arrow keys to slide the tiles on the board.\nPress 'Z' to undo last move.";
     // 0 = Normal playthrough
     // 1 = Close to a win condition
     // 2 = Close to a loss condition
@@ -60,6 +60,7 @@ export default {
     board.value = boardCopy;
 
     return {
+      whatever,
       board,
       moveBoard,
       undoMove,
@@ -139,5 +140,27 @@ export default {
     margin: 0;
     margin-bottom: 3px;
     color: white;
+  }
+  .info span{
+    font-size: 3em;
+  }
+  .infoBox {
+    margin-top: 5px;
+    display:none;
+    position: absolute;
+    border: 1px solid black;
+    border-radius: 15px;
+    padding: 20px;
+    background: wheat;
+    white-space: pre;
+  }
+  .info:hover .infoBox{
+    display: block;
+  }
+  .aboveBoard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
   }
 </style>
